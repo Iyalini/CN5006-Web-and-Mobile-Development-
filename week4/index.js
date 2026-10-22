@@ -45,7 +45,8 @@ async function insertMany() {
     console.log(result);
 }
 
-// Find all documents
+// Task 3: Find all documents, sort by salary ascending, and limit to 100
+
 async function findAll() {
 
     const docs = await Person.find({})
@@ -60,7 +61,8 @@ async function findAll() {
     });
 }
 
-// Find females with age >= 30
+// Task 4: Find females with age >= 30
+
 async function findFemalesOver30() {
 
     const givenAge = 30;
@@ -81,6 +83,32 @@ async function findFemalesOver30() {
     });
 }
 
+// Task 5: Count total documents in the collection
+async function countDocuments() {
+    const count = await Person.countDocuments();
+    console.log("Total Documents Count:", count);
+}
+
+// Task 6: Delete all documents where age >= 25
+
+async function deleteManyPersons() {
+    const result = await Person.deleteMany({
+      age: { $gte: 45 }
+    });
+
+    console.log("Deleted documents:", result);
+}
+
+// Task 7: Update all females' salary to 5555
+
+async function updateManyPersons() {
+    const result = await Person.updateMany(
+        { gender: "Female" },
+        { salary: 5555 }
+    );
+    console.log("Update successful");
+    console.log(result);
+}
 
 async function main() {
 
@@ -88,9 +116,14 @@ async function main() {
 
         await mongoose.connect(MONGO_URI);
         console.log(`Connected to ${MONGO_URI}`);
+
         await insertOne();
         await insertMany();
         await findAll();
+        await findFemalesOver30();
+        await countDocuments();
+        await deleteManyPersons();
+        await updateManyPersons();
     } 
     catch (err) {
         console.error('Error:', err);
